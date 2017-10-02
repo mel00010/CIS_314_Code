@@ -27,3 +27,16 @@
  * 			For unit tests, see test/Homework_1/2-68/2-68_test.cpp.
  * 			For the main function, see src/Homework_1/2-68/main.c
  */
+
+int lower_one_mask(int n) {
+	/*
+	 * Let n = 5.
+	 * ~(0xFFFFFFFFE << n - 1)	= ~(0b11111111111111111111111111111110 << n - 1)
+	 *							= ~(0b11111111111111111111111111111110 << 5 - 1)
+	 * 							= ~(0b11111111111111111111111111111110 << 4)
+	 * 							= ~(0b11111111111111111111111111100000)
+	 * 							= 	0b00000000000000000000000000011111
+	 * 							= 	0x0000001F
+	 */
+	return ~(0xFFFFFFFFE << n - 1);
+}

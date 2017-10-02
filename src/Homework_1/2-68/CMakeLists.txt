@@ -12,5 +12,6 @@ target_sources(2-68
 		main.c
 )
 target_link_libraries(2-68
+	2-57_functions
 	2-68_functions
 )

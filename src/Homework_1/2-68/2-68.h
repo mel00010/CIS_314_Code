@@ -35,9 +35,13 @@ extern "C" {
  */
 
 /**
- *
- * @param n
- * @return
+ * @brief Generates a bitmask where the @c n least significant bits are 1.
+ * @details Note:  Values of @c n less than or equal to 0 or greater than 32
+ * are not supported and may lead to undefined behavior.
+ * @param n An @c int indicating the number of bits set in the generated bitmask.
+ * @return Returns a bitmask where the @c n least significant bits are set to 1.
+ * @author Mel McCalla
+ * @test TEST(Homework_1_2_68_2_68, lower_one_mask)
  */
 int lower_one_mask(int n);
 
