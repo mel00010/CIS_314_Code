@@ -20,10 +20,7 @@
 
 #include "2-60.h"
 
-/* For show_int (Not sure if this is acceptable, but I didn't want to
- * write a hex display function again when I had just written one.)
- */
-#include "../2-57/2-57.h"
+#include <stdio.h>
 
 /**
  * @dir src/Homework_1/2-60
@@ -43,8 +40,12 @@
  */
 
 int main(int argc, char** argv) {
-	show_int(replace_byte(0x12345678, 0, 0xAB)); // Prints 0x123456AB
-	show_int(replace_byte(0x12345678, 1, 0xAB)); // Prints 0x1234AB78
-	show_int(replace_byte(0x12345678, 2, 0xAB)); // Prints 0x12AB5678
-	show_int(replace_byte(0x12345678, 3, 0xAB)); // Prints 0xAB345678
+	// Prints "replace_byte(0x12345678, 0, 0xAB) = 0x123456AB"
+	printf("replace_byte(0x12345678, 0, 0xAB) = 0x%08X\n", replace_byte(0x12345678, 0, 0xAB));
+	// Prints "replace_byte(0x12345678, 1, 0xAB) = 0x1234AB78"
+	printf("replace_byte(0x12345678, 1, 0xAB) = 0x%08X\n", replace_byte(0x12345678, 1, 0xAB));
+	// Prints "replace_byte(0x12345678, 2, 0xAB) = 0x12AB5678"
+	printf("replace_byte(0x12345678, 2, 0xAB) = 0x%08X\n", replace_byte(0x12345678, 2, 0xAB));
+	// Prints "replace_byte(0x12345678, 3, 0xAB) = 0xAB345678"
+	printf("replace_byte(0x12345678, 3, 0xAB) = 0x%08X\n", replace_byte(0x12345678, 3, 0xAB));
 }
