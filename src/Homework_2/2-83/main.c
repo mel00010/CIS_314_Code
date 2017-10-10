@@ -20,6 +20,8 @@
 
 #include "2-83.h"
 
+#include <stdio.h>
+
 int main() {
 	printf("float_le( 0.0f,  0.0f) = %1d\n", float_le(0.0f, 0.0f));		// Prints float_le( 0.0f,  0.0f) = 1
 	printf("float_le(-0.0f,  0.0f) = %1d\n", float_le(-0.0f, 0.0f));	// Prints float_le(-0.0f,  0.0f) = 1
