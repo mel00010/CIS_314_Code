@@ -20,6 +20,19 @@
 
 #include "2-71.h"
 
+#include <stdio.h>
+/* For coloring the input to xbyte to make it easier to read*/
+#define ANSI_BOLD_RED	"\x1b[1;31m"
+#define ANSI_RESET		"\x1b[0m"
+
 int main() {
+	printf("xbyte(0x89ABCD"	ANSI_BOLD_RED"34"ANSI_RESET		  ", 0) = 0x%08X\n", xbyte(0x89ABCD34, 0));	// Prints xbyte(0x89ABCD34, 0) = 0x00000034
+	printf("xbyte(0x89ABCD"	ANSI_BOLD_RED"CC"ANSI_RESET		  ", 0) = 0x%08X\n", xbyte(0x89ABCDCC, 0));	// Prints xbyte(0x89ABCDCC, 0) = 0xFFFFFFCC
+	printf("xbyte(0x89AB"	ANSI_BOLD_RED"34"ANSI_RESET	    "EF, 1) = 0x%08X\n", xbyte(0x89AB34EF, 1));	// Prints xbyte(0x89AB34EF, 1) = 0x00000034
+	printf("xbyte(0x89AB"	ANSI_BOLD_RED"CC"ANSI_RESET     "EF, 1) = 0x%08X\n", xbyte(0x89ABCCEF, 1));	// Prints xbyte(0x89ABCCEF, 1) = 0xFFFFFFCC
+	printf("xbyte(0x89"		ANSI_BOLD_RED"34"ANSI_RESET   "CDEF, 2) = 0x%08X\n", xbyte(0x8934CDEF, 2));	// Prints xbyte(0x8934CDEF, 2) = 0x00000034
+	printf("xbyte(0x89"		ANSI_BOLD_RED"CC"ANSI_RESET   "CDEF, 2) = 0x%08X\n", xbyte(0x89CCCDEF, 2));	// Prints xbyte(0x89CCCDEF, 2) = 0xFFFFFFCC
+	printf("xbyte(0x"		ANSI_BOLD_RED"34"ANSI_RESET "ABCDEF, 3) = 0x%08X\n", xbyte(0x34ABCDEF, 3));	// Prints xbyte(0x34ABCDEF, 3) = 0x00000034
+	printf("xbyte(0x"		ANSI_BOLD_RED"CC"ANSI_RESET "ABCDEF, 3) = 0x%08X\n", xbyte(0xCCABCDEF, 3));	// Prints xbyte(0xCCABCDEF, 3) = 0xFFFFFFCC
 	return 0;
 }
