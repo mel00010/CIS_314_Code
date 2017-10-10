@@ -14,3 +14,9 @@ target_sources(2-57
 target_link_libraries(2-57
 	2-57_functions
 )
+include(FormatForDist)
+packForDist(Assignment1
+	2-57.h
+	2-57.c
+	main.c
+)

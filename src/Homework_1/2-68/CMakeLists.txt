@@ -15,3 +15,9 @@ target_link_libraries(2-68
 	2-57_functions
 	2-68_functions
 )
+include(FormatForDist)
+packForDist(Assignment1
+	2-68.h
+	2-68.c
+	main.c
+)
