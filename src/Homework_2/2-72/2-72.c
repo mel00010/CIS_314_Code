@@ -23,6 +23,12 @@
 #include <string.h>
 
 void copy_int(int val, void *buf, int maxbytes) {
+	/*
+	 * The test in the code example given in the assignment always succeeds
+	 * because sizeof(int) can never be negative, so the result of
+	 * maxbytes - sizeof(int) will always be positive, and that is all the test
+	 * is checking for, so it is always true.
+	 */
 	if (maxbytes - (int) sizeof(int) >= 0) {
 		memcpy(buf, (void *) &val, sizeof(val));
 	}

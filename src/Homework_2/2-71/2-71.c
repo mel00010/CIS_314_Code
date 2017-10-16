@@ -21,6 +21,13 @@
 #include "2-71.h"
 
 int xbyte(packed_t word, int bytenum) {
+	/*
+	 * The reason why this works and the example given doesn't is that
+	 * the solution given in the assignment does not sign extend the extracted
+	 * byte, and simply returns the non-extended byte as an int.
+	 * By assigning it to a char then returning that, the C compiler
+	 * will sign extend it into a proper signed int.
+	 */
 	char extracted = (word >> (bytenum * 8)) & 0xFF;
 	return extracted;
 }
