@@ -67,6 +67,7 @@ target_include_directories(tests
 target_link_libraries(tests
 	homework_1_test
 	homework_2_test
+	homework_3_test
 	gtest
 	gmock
 	gmock_main
@@ -75,3 +76,4 @@ target_link_libraries(tests
 
 add_subdirectory(Homework_1)
 add_subdirectory(Homework_2)
+add_subdirectory(Homework_3)

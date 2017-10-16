@@ -1,2 +1,3 @@
 add_subdirectory(Homework_1)
 add_subdirectory(Homework_2)
+add_subdirectory(Homework_3)
