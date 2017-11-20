@@ -1,0 +1,177 @@
+.pos 0
+init:
+	irmovl Stack, %esp
+	irmovl Stack, %ebp
+	call Main
+	halt
+	
+Main:
+# Prolog
+    pushl %ebp
+    rrmovl %esp, %ebp
+# Body
+    irmovl array, %eax
+	pushl %eax
+	irmovl $13, %eax
+	pushl %eax
+	call sort
+	
+	
+# Epilog
+    rrmovl %ebp, %esp
+	popl %ebp
+	ret
+
+
+
+# Warning!  A lot of this code is pretty horrifying.  But it works.  In particular, the lack of imul made things messy.  Such is the way of assembly.  
+sort:
+# Prolog
+    pushl %ebp              
+    rrmovl %esp, %ebp
+    pushl %ebx
+    pushl %esi
+    pushl %edi
+# Body
+    xorl %esi, %esi         # %esi holds j
+    xorl %edi, %edi         # %edi holds iMin
+    outerLoop:
+        rrmovl %esi, %edi   # Set iMin to j
+        rrmovl %esi, %eax   # Set i to j, %eax holds i
+        irmovl $1, %ecx     # Add 1 to i
+        addl %ecx, %eax     # Add 1 to i
+        innerLoop:
+            mrmovl 12(%ebp), %ecx # Load array base pointer into %ecx
+            pushl %eax
+            # This code is multiplying %eax by 4
+            addl %eax, %eax 
+            addl %eax, %eax
+            
+            # Put i*4 + *array into %eax
+            addl %ecx, %eax
+            mrmovl (%eax), %ebx # Load *(i*4 + array) into %ebx
+            popl %eax          
+            
+            # Do the whole horrifying process again, this time with iMin
+            mrmovl 12(%ebp), %ecx # Load array base pointer into %ecx
+            pushl %edi
+            
+            # Again, this code is multiplying %edi by 4
+            addl %edi, %edi 
+            addl %edi, %edi
+            
+            # Put iMin*4 + *array into %edi
+            addl %ecx, %edi
+            mrmovl (%edi), %ecx # Load *(iMin*4 + array) into %ecx
+            popl %edi
+            
+            
+            subl %ecx, %ebx # Do a comparison by subtracting
+            cmovl %eax, %edi # If *(iMin*4 + array) - *(i*4 + array) < 0, 
+                             # then copy i into iMin
+            
+            
+            irmovl $1, %ecx       # Increment i
+            addl %ecx, %eax       # Increment i
+            mrmovl 8(%ebp), %ecx # Load n into %ecx
+            pushl %eax            # Push %eax so wwe can set the condition codes
+            subl %ecx, %eax       # Set condition codes
+            popl %eax             # Restore %eax
+            jne innerLoop         # Jump back to beginning of loop if i < n
+        
+        pushl %edi
+        subl %esi, %edi
+        popl %edi
+        je outerLoopEnd # If iMin and j are equal, go to the end of the loop
+        
+        mrmovl 12(%ebp), %ecx # Load array base pointer into %ecx
+        pushl %esi
+        # These instructions are multiplying %esi by 4
+        addl %esi, %esi 
+        addl %esi, %esi
+        
+        # Put j*4 + *array into %esi
+        addl %ecx, %esi
+        rrmovl %esi, %ebx # Load j*4 + array into %ebx
+        popl %esi          
+        
+        # Do the whole horrifying process again, this time with iMin
+        mrmovl 12(%ebp), %ecx # Load array base pointer into %ecx
+        pushl %edi
+        
+        # Again, this code is multiplying %edi by 4
+        addl %edi, %edi 
+        addl %edi, %edi
+        #addl %edi, %edi
+        #addl %edi, %edi
+        
+        # Put iMin*4 + *array into %edi
+        addl %ecx, %edi
+        rrmovl %edi, %ecx # Load iMin*4 + array into %ecx
+        popl %edi    
+        pushl %ebx
+        pushl %ecx
+        call swap
+        popl %ecx
+        popl %ebx
+        
+        
+        outerLoopEnd:
+        
+        irmovl $1, %ecx       # Increment j
+        addl %ecx, %esi       # Increment j
+        mrmovl 8(%ebp), %ecx  # Load n into %ecx
+        irmovl $1, %ebx       # Subtract 1 from n
+        subl %ebx, %ecx       # Subtract 1 from n
+        pushl %esi            # Push %esi so wwe can set the condition codes
+        subl %ecx, %esi       # Set condition codes
+        popl %esi             # Restore %esi
+        jne outerLoop         # Jump back to beginning of loop if j < n - 1
+            
+# Epilog
+    popl %edi
+    popl %esi
+    popl %ebx
+    rrmovl %ebp, %esp
+    popl %ebp
+	ret
+	
+	
+swap:
+# Prolog
+    pushl %ebp              
+    rrmovl %esp, %ebp
+# Body
+    mrmovl 8(%ebp), %eax    # %eax holds xp    
+    mrmovl 12(%ebp), %ecx   # %edx holds yp
+    mrmovl (%eax), %edx
+    pushl %edx
+    mrmovl (%ecx), %edx
+    rmmovl %edx, (%eax)
+    popl   %edx
+    rmmovl %edx, (%ecx)
+# Epilog
+    rrmovl %ebp, %esp
+    popl %ebp
+	ret
+	
+.align 4
+array:
+	.long 0x0005
+	.long 0x000A
+    .long 0x0001
+    .long 0x0006
+    .long 0x0004
+    .long 0x0003
+    .long 0x000B
+    .long 0x0007
+    .long 0x0009
+    .long 0x000C
+    .long 0x0002
+    .long 0x000D
+    .long 0x0008
+    
+    
+.pos 0x200
+Stack:
+

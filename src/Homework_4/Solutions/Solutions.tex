@@ -7,14 +7,15 @@
 \usepackage{fancyhdr}
 \usepackage{outlines}
 \usepackage{enumitem}
+\usepackage{minted}
 
 % Uses the package declared above and makes the page have headers and footers
 \pagestyle{fancy}
 
 % Puts a title at the top left
-\lhead{CH 221}
+\lhead{CIS 314}
 % Puts a title at the center
-\chead{Lecture 4 Notes}
+\chead{Assignment 4}
 
 % Puts a title at the top right
 \rhead{Mel McCalla}
@@ -40,6 +41,116 @@
 \DeclareMathOperator{\Ker}{Ker}
 
 \begin{document}
+\begin{enumerate}
+	\item
+	\begin{enumerate}
+		\item
+	\end{enumerate}
+\end{enumerate}
+\begin{minted}[tabsize=4]{gas}
+	movl 8(%ebp), %esi  ; %esi holds x
+	movl 12(%ebp), %ebx ; %ebx holds n
+	movl $-1, %edi      ; Set result to -1
+	movl $1, %edx       ; Set mask to 1
+.L2:                    ; Beginning of for loop
+	movl %edx, %eax     ; Load mask into %eax
+	andl %esi, %eax     ; AND mask with x
+	xorl %eax, %edi     ; XOR result with %eax
+	movl %ebx, %ecx     ; Load n into %ecx
+	shll %ecx, %edx     ; Shift n left by mask
+	cmpl $0, %edx       ; Compare mask with 0
+	jne .L2             ; Jump to .L2 if mask is 
+                        ; not equal to 0
+	movl %edi, %eax     ; Move result into %eax for returning
+\end{minted}
 
+\quad\\
+
+\begin{enumerate}
+	\item
+	\begin{enumerate}
+		\setcounter{enumii}{1}
+		\item
+	\end{enumerate}
+\end{enumerate}
+	\begin{minted}[tabsize=4]{c}
+	int loop(int x, int n) {
+		int result = -1;
+		for (int mask = 1; mask != 0; mask = n << mask) {
+			result ^= mask & x;
+		}
+		return result;
+	}
+	\end{minted}
+
+\newpage
+
+\begin{enumerate}
+	\setcounter{enumi}{1}
+	\item
+	\begin{enumerate}
+		\item
+	\end{enumerate}
+\end{enumerate}
+\begin{minted}[tabsize=4]{gas}
+.L3:                         ; Beginning of inner loop.
+	movl (%ebx), %eax        ; Load *(A + M*i + j) into %eax
+	movl (%esi,%ecx,4), %edx ; Load *(A + M*j + i) into t 
+	movl %eax, (%esi,%ecx,4) ; Load *(A + M*i + j) into 
+                             ; *(A + M*j + i) via %eax
+
+	addl $1, %ecx            ; Add 1 to j
+	movl %edx, (%ebx)        ; Load t into *(A + M*i + j)
+	addl $52, %ebx           ; Add 1 to i
+	cmpl %edi, %ecx          ; Compare j with M
+	jl .L3                   ; Jump back to .L3 if j is less than M
+\end{minted}
+
+\begin{enumerate}
+	\setcounter{enumi}{1}
+	\item
+	\begin{enumerate}
+		\setcounter{enumii}{1}
+		\item M is equal to 13
+	\end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\begin{enumerate}
+	\setcounter{enumi}{2}
+	\item
+\end{enumerate}
+\begin{minted}[tabsize=4]{gas}
+f:    
+	movl 4(%esp), %eax       ; Load 4 bytes from the stack at the 
+                             ; location 4 bytes forward from the 
+                             ; stack pointer into %eax
+	leal (%eax,%eax,2), %eax ; Calculate %eax+2*%eax
+	ret                      ; Return by popping the return address 
+                             ; off the stack and jumping there.  
+                             ; %eax is conventionally the register 
+                             ; that holds the return value, 
+                             ; so this function returns x*3
+
+
+g:
+	movl 4(%esp), %edx       ; Load 4 bytes from the stack at the 
+                             ; location 4 bytes forward from the 
+                             ; stack pointer into %edx
+
+	movl 8(%esp), %eax       ; Load 4 bytes from the stack at the 
+                             ; location 8 bytes forward from the 
+                             ; stack pointer into %eax
+
+	leal (%eax,%eax,2), %eax ; Calculate %eax+2*%eax
+	leal (%edx,%edx,2), %edx ; Calculate %edx+2*%edx
+	addl %edx, %eax          ; Add %edx to %eax
+	ret                      ; Return by popping the return address 
+                             ; off the stack and jumping there.  
+                             ; %eax is conventionally the register 
+                             ; that holds the return value, so 
+                             ; this function returns a*3 + b*3
+\end{minted}
 
 \end{document}

@@ -59,6 +59,37 @@ function(packForDist package_name header_file source_file main_file)
 	
 endfunction()
 
+function(add_file_to_package_from_source_dir package_name file_name)
+	add_custom_target(pack_${package_name}_copy_${file_name}
+		COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_CURRENT_SOURCE_DIR}/${file_name}
+                ${CMAKE_BINARY_DIR}/dist/${package_name}/${file_name}
+    )
+	if(TARGET pack_${package_name})
+		file(APPEND ${CMAKE_BINARY_DIR}/dist/${package_name}/files.txt ${file_name}\n)
+		add_dependencies(pack_${package_name} pack_${package_name}_copy_${file_name})
+		
+	else()
+		file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/dist/${package_name})
+		add_custom_target(pack_${package_name}
+			COMMAND
+		    	${CMAKE_COMMAND} -E tar "cfv" MelMcCalla${package_name}.zip --format=zip --files-from=files.txt
+		    	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/dist/${package_name}
+	    	COMMENT
+		    	"Generating MelMcCalla${package_name}.zip"
+	    )
+   		file(WRITE ${CMAKE_BINARY_DIR}/dist/${package_name}/files.txt ${file_name}\n)
+        add_dependencies(pack_${package_name} pack_${package_name}_copy_${file_name})
+        
+	endif()
+	if(TARGET pack_all)
+		add_dependencies(pack_all pack_${package_name})
+	else()
+		createDistTarget()
+		add_dependencies(pack_all pack_${package_name})
+	endif()
+endfunction()
+
 function(add_file_to_package_from_binary_dir package_name file_name)
 	add_custom_target(pack_${package_name}_copy_${file_name}
 		COMMAND ${CMAKE_COMMAND} -E copy

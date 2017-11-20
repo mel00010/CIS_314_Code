@@ -864,7 +864,7 @@ function(latex_setup_variables)
   latex_wantit(PS2PDF_CONVERTER ps2pdf)
   latex_wantit(PDFTOPS_CONVERTER pdftops)
 
-  set(LATEX_COMPILER_FLAGS "-interaction=batchmode -file-line-error"
+  set(LATEX_COMPILER_FLAGS "-shell-escape --enable-write18 -interaction=batchmode -file-line-error"
     CACHE STRING "Flags passed to latex.")
   set(PDFLATEX_COMPILER_FLAGS ${LATEX_COMPILER_FLAGS}
     CACHE STRING "Flags passed to pdflatex.")
@@ -1436,7 +1436,8 @@ function(add_latex_targets_internal)
   if(NOT LATEX_TARGET_NAME)
     # Use the main filename (minus the .tex) as the target name. Remove any
     # spaces since CMake cannot have spaces in its target names.
-    string(REPLACE " " "_" LATEX_TARGET_NAME ${LATEX_TARGET})
+      string(RANDOM file_id)
+    string(REPLACE " " "_" LATEX_TARGET_NAME ${LATEX_TARGET}_${file_id})
   endif()
 
   # Some LaTeX commands may need to be modified (or may not work) if the main

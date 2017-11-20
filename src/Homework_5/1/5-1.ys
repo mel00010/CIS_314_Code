@@ -1,0 +1,52 @@
+.pos 0
+init:
+	irmovl Stack, %esp
+	irmovl Stack, %ebp
+	call Main
+	halt
+	
+Main:
+main_prolog:
+    pushl %ebp
+    rrmovl %esp, %ebp
+main_body:    
+    irmovl pointer1, %edx
+	pushl %edx
+	irmovl pointer2, %edx
+	pushl %edx
+	call swap
+	
+	
+main_epilog:
+    rrmovl %ebp, %esp
+	popl %ebp
+	ret
+	
+swap:
+swap_prolog:
+    pushl %ebp
+    rrmovl %esp, %ebp
+    
+swap_body:
+    mrmovl 8(%ebp), %eax    # %eax holds xp    
+    mrmovl 12(%ebp), %ecx   # %edx holds yp
+    mrmovl (%eax), %edx
+    pushl %edx
+    mrmovl (%ecx), %edx
+    rmmovl %edx, (%eax)
+    popl   %edx
+    rmmovl %edx, (%ecx)
+
+swap_epilog: 
+    rrmovl %ebp, %esp
+    popl %ebp
+	ret
+	
+.align 4
+pointer1:
+	.long 0x1234
+pointer2:
+	.long 0x5678
+
+.pos 0x100
+Stack:
