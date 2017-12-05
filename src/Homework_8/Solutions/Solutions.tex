@@ -1,0 +1,82 @@
+\documentclass[12pt]{article}
+% Useful packages that enable things like math symbols and a fancy header
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,shapes,calc,positioning}
+\usepackage{amssymb,amsfonts,amsmath,amsthm}
+\usepackage{latexsym}
+\usepackage{mathrsfs}
+\usepackage{fancyhdr}
+\usepackage{outlines}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{svg}
+
+\tikzset{
+    between/.style args={#1 and #2}{
+         at = ($(#1)!0.5!(#2)$)
+    }
+}
+
+\tikzset{
+    between base/.style args={#1 and #2}{
+        between=#1.base and #2.base
+    }
+}
+
+
+% Uses the package declared above and makes the page have headers and footers
+\pagestyle{fancy}
+
+% Puts a title at the top left
+\lhead{CIS 314}
+% Puts a title at the center
+\chead{Assignment 8}
+
+% Puts a title at the top right
+\rhead{Mel McCalla}
+
+% Put's "today's date" in the lower left with the command \today
+\lfoot{\today}
+\cfoot{\thepage}
+
+%%%%  Some user defined commands that make life easier.  
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\beas}{\begin{eqnarray*}}
+\newcommand{\eeas}{\end{eqnarray*}}
+\newcommand{\pa}{\partial}
+\newcommand{\la}{\lambda}
+\newcommand{\sgn}{\mathrm{sgn}}
+\newcommand{\ve}{\varepsilon}
+\newcommand{\ra}{\rightarrow}
+
+\renewcommand\qedsymbol{$\blacksquare$}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\M}{M}
+\DeclareMathOperator{\PC}{PC}
+\DeclareMathOperator{\R}{r}
+\DeclareMathOperator{\rA}{rA}
+\DeclareMathOperator{\rB}{rB}
+\DeclareMathOperator{\valA}{valA}
+\DeclareMathOperator{\valB}{valB}
+\DeclareMathOperator{\valC}{valC}
+\DeclareMathOperator{\valE}{valE}
+\DeclareMathOperator{\valP}{valP}
+
+
+\newlength{\remainingwidth}
+\setlength{\remainingwidth}{\textwidth-3cm-24pt}
+
+\begin{document}
+\begin{enumerate}
+	\item 
+	\begin{enumerate}
+		\item 
+	\end{enumerate}
+\end{enumerate}
+\end{document}
